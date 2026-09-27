@@ -2,19 +2,23 @@ import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
+import { t } from '../i18n/strings';
+import { useLang } from '../state/AppStore';
 import { colors } from '../theme';
 import { BigButton } from './BigButton';
 
 /** En-tête commun : bouton retour, titre, et un emplacement à droite. */
-export function ScreenHeader({ title, right }: { title?: string; right?: ReactNode }) {
-  // Sur téléphone, la place va aux étoiles et aux boutons : le titre est masqué.
+export function ScreenHeader({ title, right, backTo }: { title?: string; right?: ReactNode; backTo?: string }) {
+  const lang = useLang();
+  // Sur téléphone, la place va aux étoiles et aux boutons quand il y en a : le titre est masqué.
   const { width } = useWindowDimensions();
-  const showTitle = width >= 520;
+  const showTitle = width >= 520 || !right;
   return (
     <View style={styles.row}>
       <BigButton
-        accessibilityLabel="Retour"
-        onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+        testID="back"
+        accessibilityLabel={t(lang, 'back')}
+        onPress={() => (backTo ? router.replace(backTo as never) : router.canGoBack() ? router.back() : router.replace('/'))}
       >
         <Text style={styles.icon}>⬅️</Text>
       </BigButton>

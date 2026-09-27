@@ -42,8 +42,9 @@ Docs: https://docs.expo.dev/eas/index.md
 
 ## Ce projet
 
-- Application d'apprentissage pour enfants (PS → CM2). Voir `README.md` pour l'architecture.
-- **Aucun contenu tiers protégé** (fiches, illustrations, textes copiés de sites d'exercices). Le contenu est généré par le code ou provient de sources à licence libre, avec la licence indiquée.
+- Application d'apprentissage pour enfants (PS → CM2), interface fr / en / ht. Voir `README.md`.
+- **Aucun contenu tiers protégé** (fiches, illustrations, textes copiés de sites d'exercices). Le contenu est généré par le code ou écrit pour le projet, ou bien provient de sources à licence libre, avec la licence indiquée.
+- Tout texte visible passe par `t(lang, clé)` (`src/i18n/strings.ts`) et existe dans les 3 langues (un test le vérifie).
 - La logique va dans `src/domain/` (TypeScript pur, testé avec Jest). Les moteurs de `src/engines/` n'affichent qu'un exercice et signalent `onSolved` / `onMistake`.
-- Toute nouvelle activité = un générateur dans `src/domain/generators/` + une entrée dans `levels.ts`.
-- Avant de livrer : `npm run typecheck` et `npm test`.
+- Nouvelle activité = un générateur dans `src/domain/generators/` + une entrée dans `SKILLS` (`src/domain/skills.ts`). Les tests de `__tests__/skills.test.ts` la vérifient automatiquement pour toutes les classes, difficultés et langues.
+- Avant de livrer : `npm run typecheck`, `npm test`, et si possible le parcours `e2e/parcours.mjs`.

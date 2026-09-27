@@ -13,10 +13,11 @@ type Props = {
   style?: StyleProp<ViewStyle>;
   accessibilityLabel: string;
   disabled?: boolean;
+  testID?: string;
 };
 
 /** Gros bouton qui « s'enfonce » au toucher ou au clic. */
-export function BigButton({ onPress, children, color = '#fff', style, accessibilityLabel, disabled }: Props) {
+export function BigButton({ onPress, children, color = '#fff', style, accessibilityLabel, disabled, testID }: Props) {
   const scale = useSharedValue(1);
   const animated = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
 
@@ -24,6 +25,7 @@ export function BigButton({ onPress, children, color = '#fff', style, accessibil
     <AnimatedPressable
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
+      testID={testID}
       disabled={disabled}
       onPress={onPress}
       onPressIn={() => (scale.value = withSpring(0.92))}

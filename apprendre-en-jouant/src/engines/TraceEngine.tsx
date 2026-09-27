@@ -6,6 +6,7 @@ import Svg, { Circle, Path, Text as SvgText } from 'react-native-svg';
 
 import { checkStroke, toSvgPath } from '../domain/tracing';
 import type { EngineProps, Point, TraceExercise } from '../domain/types';
+import { t } from '../i18n/strings';
 import { say } from '../lib/feedback';
 import { colors, radius } from '../theme';
 
@@ -15,7 +16,7 @@ const MAX_SIZE = 420;
  * Moteur « tracé » : l'enfant repasse le modèle trait par trait, au doigt, au stylet
  * ou à la souris. Chaque trait est vérifié (point de départ, couverture, précision).
  */
-export function TraceEngine({ exercise, onSolved, onMistake }: EngineProps<TraceExercise>) {
+export function TraceEngine({ exercise, lang, onSolved, onMistake }: EngineProps<TraceExercise>) {
   const [size, setSize] = useState(0);
   const [done, setDone] = useState(0);
   const [drawn, setDrawn] = useState<Point[]>([]);
@@ -47,7 +48,7 @@ export function TraceEngine({ exercise, onSolved, onMistake }: EngineProps<Trace
     const next = done + 1;
     setDone(next);
     if (next === exercise.strokes.length) onSolved();
-    else say('Bien ! Trait suivant.');
+    else say({ text: t(lang, 'nextStroke'), lang });
   };
 
   // Callbacks exécutés côté JS : le tracé met à jour l'état React à chaque mouvement.

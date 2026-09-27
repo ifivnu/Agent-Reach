@@ -1,94 +1,123 @@
-# Apprendre en jouant
+# Apprendre en jouant · Learn Through Play · Aprann an jwe
 
-Application d'apprentissage pour enfants de la petite section au CM2. Elle se joue à la souris, au doigt ou au stylet, et fonctionne sur **Android, iOS et PC** (navigateur ou application installable) à partir d'une seule base de code **Expo / React Native**.
+Application d'apprentissage pour enfants de 3 à 11 ans (de la petite section au CM2). Elle se joue au doigt, au stylet ou à la souris et fonctionne sur **Android, iOS et PC** (navigateur ou application installable) avec une seule base de code **Expo / React Native**.
+
+- **Interface en 3 langues :** français, anglais et kreyòl ayisyen, au choix pour chaque enfant.
+- **5 matières :** Maths, Lecture, Logique et bon sens, Agilité, Langues.
+- **22 activités**, réglées selon la classe, avec une **difficulté qui s'adapte** à l'enfant.
+- **Parcours de classe** façon programme scolaire, avec étoiles, **album d'autocollants** et série de jours joués.
+- **Plusieurs profils enfants** et un **espace parents** protégé, avec le suivi des progrès.
 
 ## Contenu : tout est original
 
-Les fiches d'exercices du web, par exemple kiddoworksheets.com, sont protégées : leurs conditions interdisent de les republier, reproduire ou redistribuer. Cette application **n'en contient aucune**. Elle reprend seulement des *types* d'exercices classiques, qui ne sont pas protégés, et génère le contenu par le code :
+Les fiches des sites d'exercices, comme kiddoworksheets.com, sont protégées. Le principe de programmes comme AdaptedMind (parcours par classe, difficulté adaptative, récompenses, rapports aux parents) est repris ici comme *idée* seulement : aucun contenu n'en est copié.
 
-- les additions, le comptage et les lettres manquantes sont tirés au hasard selon le niveau ;
-- les modèles de tracé sont des coordonnées dessinées pour ce projet (`src/domain/glyphs.ts`) ;
-- les images sont des emoji Unicode, à remplacer par des illustrations libres ([Kenney](https://kenney.nl) en CC0, [OpenMoji](https://openmoji.org) en CC BY-SA…) ou faites maison.
+- Les exercices de calcul, de suites, de lettres, etc. sont **générés par le code**.
+- Le vocabulaire trilingue (`src/domain/content/vocab.ts`), les catégories, les associations et les histoires (`logic.ts`) ont été écrits pour ce projet.
+- Les modèles de tracé des chiffres et des capitales (`glyphs.ts`) sont des coordonnées dessinées pour ce projet.
+- Les images sont des emoji Unicode, à remplacer par des illustrations libres ([Kenney](https://kenney.nl) en CC0, [OpenMoji](https://openmoji.org) en CC BY-SA) ou faites maison.
 
-## Les 3 moteurs
+> **Kreyòl :** les textes et le vocabulaire suivent la graphie officielle. Ils sont **à faire relire par un enseignant ou une enseignante haïtienne** avant publication.
 
-| Moteur | Fichier | Activités | Interaction |
-|---|---|---|---|
-| Choix multiple | `src/engines/ChoiceEngine.tsx` | Compter, Additions | Toucher ou cliquer la bonne réponse. On peut aussi toucher chaque objet pour le compter à voix haute. |
-| Glisser-déposer | `src/engines/DragDropEngine.tsx` | Lettres manquantes | Glisser une lettre vers une case vide. Une mauvaise lettre revient à sa place. |
-| Tracé | `src/engines/TraceEngine.tsx` | Tracer chiffres et capitales | Repasser le modèle trait par trait. Chaque trait est vérifié : départ, couverture, précision et anti-gribouillis. |
+## Programme
 
-Chaque moteur reçoit un exercice (une simple donnée) et signale `onSolved` ou `onMistake`. Ajouter une activité revient à écrire un générateur, sans toucher aux moteurs.
-
-## Niveaux
-
-Toute la difficulté se règle dans `src/domain/levels.ts` :
-
-| Niveau | Activités | Réglages |
+| Matière | Activités | Classes |
 |---|---|---|
-| PS | Compter, Tracer | 1 à 3 objets, chiffres 1 à 4 |
-| MS | Compter, Tracer | jusqu'à 6 objets, chiffres et capitales à traits droits |
-| GS | Compter, Additions, Lettres, Tracer | sommes ≤ 10 avec objets, mots courts en capitales, 1 lettre cachée, tout l'alphabet |
-| CP | Additions, Lettres, Tracer | sommes ≤ 20, mots moyens en minuscules |
-| CE1 → CM2 | Additions, Lettres | sommes ≤ 100 / 1 000 / 10 000 / 100 000, mots longs, 2 à 3 lettres cachées |
+| 🔢 **Maths** | Compter · Tracer les chiffres · Suites de nombres · Comparer (<, =, >) · Additions · Soustractions · Tables de multiplication | PS → CM2 |
+| 📚 **Lecture** | Tracer les lettres · Première lettre · Lire un mot · Mot mélangé · Lettres manquantes | MS → CM2 |
+| 🧠 **Logique et bon sens** | Suites logiques · Qu'est-ce qui va avec ? · Remettre en ordre · Trouve l'intrus | PS → CM2 |
+| ⚡ **Agilité** | Mémoire · Attrape-les ! (réflexes et attention) | PS → CM2 |
+| 🌍 **Langues** (français, anglais, kreyòl) | Écoute et choisis · Comment ça s'appelle ? · Mémoire des mots · Épeler | 7 thèmes : animaux, couleurs, nombres, nourriture, corps, famille, autour de moi |
+
+La même activité grandit avec l'enfant :
+
+- **Attrape-les** fait toucher des images en PS, des lettres qui se ressemblent (B, D, P, R) en GS, puis les nombres pairs, les calculs qui font 10 ou les multiples de 7 en CE et CM.
+- **Mémoire** associe des images identiques chez les petits, puis un calcul à son résultat (« 7 + 5 » ↔ « 12 ») à partir du CE1.
+- **Remettre en ordre** fait ranger des histoires en images (œuf → poussin → poule), puis des nombres dans l'ordre croissant ou décroissant.
+
+### Difficulté adaptative et récompenses
+
+- Chaque activité a une difficulté de 1 à 3. Elle **monte** après une série réussie à 80 % du premier coup et **redescend** sous 50 %.
+- Une série rapporte 1 à 3 étoiles et **un autocollant** (40 à collectionner).
+- Le **parcours** entremêle les matières de la classe et met en avant la prochaine compétence à travailler (« À toi ! »).
+- L'**espace parents** s'ouvre avec une multiplication. Il montre, pour chaque compétence, le nombre de séries, le taux de réussite du premier coup, la difficulté et les étoiles. On peut aussi y changer la classe ou la langue d'un profil.
+
+## Les 6 moteurs
+
+Chaque moteur affiche un exercice (une simple donnée) et signale `onSolved` / `onMistake`. Ajouter une activité revient à écrire un générateur.
+
+| Moteur | Fichier | Utilisé par |
+|---|---|---|
+| Choix multiple | `src/engines/ChoiceEngine.tsx` | Calcul, comparer, suites, intrus, va avec, lire, première lettre, écoute, nommer |
+| Glisser-déposer | `src/engines/DragDropEngine.tsx` | Lettres manquantes, épeler |
+| Tracé | `src/engines/TraceEngine.tsx` | Chiffres et lettres (vérifie le départ, la couverture, la précision, et refuse les gribouillis) |
+| Mémoire | `src/engines/MemoryEngine.tsx` | Mémoire, mémoire des mots |
+| Remettre en ordre | `src/engines/SequenceEngine.tsx` | Histoires, nombres à classer, mot mélangé |
+| Attrape-les | `src/engines/TapTargetsEngine.tsx` | Réflexes : cibles qui apparaissent et disparaissent |
 
 ## Structure
 
 ```
 src/
-  app/                    Écrans (Expo Router)
-    index.tsx             Choix de la classe
-    niveau/[level].tsx    Choix de l'activité
-    jeu/[level]/[activity].tsx  Série de 5 exercices, étoiles, célébration
-  domain/                 Logique pure, sans React (testée)
-    types.ts              Types des exercices et contrat des moteurs
-    levels.ts             Programme par niveau
-    generators/           Un générateur par activité
-    glyphs.ts             Modèles de tracé (repère 0..100)
-    tracing.ts            Vérification d'un trait
-    board.ts              Placement et lâcher du glisser-déposer
-    words.ts              Liste de mots
-  engines/                Les 3 moteurs interactifs
-  components/             Boutons animés, étoiles, célébration
-  lib/feedback.ts         Voix (synthèse vocale fr-FR) et vibrations
-__tests__/                Tests Jest de la logique
+  app/                      Écrans (Expo Router)
+    index.tsx               Qui joue ? (profils)
+    profil.tsx              Nouveau profil : langue, prénom, personnage, classe
+    accueil.tsx             Accueil de l'enfant : étoiles, série de jours, matières
+    matiere/[subject].tsx   Activités d'une matière
+    langues/…               Langue étudiée → thème → activité
+    jeu/[skill].tsx         Série d'exercices, célébration, étoiles, autocollant
+    parcours.tsx            Parcours de la classe
+    album.tsx               Album d'autocollants
+    parents.tsx             Contrôle parental + tableau de bord
+  domain/                   Logique pure, sans React (testée)
+    skills.ts               Registre des activités par matière et par classe
+    generators/             Maths, lecture, logique, agilité, langues
+    content/                Vocabulaire trilingue, contenus de logique, autocollants
+    progress.ts             Profils, étoiles, difficulté adaptative, série de jours
+    levels.ts               Classes PS → CM2 (équivalents US et Haïti)
+  i18n/strings.ts           Tous les textes en fr / en / ht
+  engines/                  Les 6 moteurs interactifs
+  state/AppStore.tsx        État de l'application, sauvegardé sur l'appareil
+  lib/feedback.ts           Voix multilingue et vibrations
+__tests__/                  227 tests Jest
+e2e/                        Parcours complet dans un vrai navigateur (Playwright)
 ```
-
-## Technologies
-
-- **Expo SDK 57** + **Expo Router** : Android, iOS et web avec le même code
-- **react-native-gesture-handler** : glisser et tracer au doigt, au stylet ou à la souris
-- **react-native-reanimated 4** : animations fluides (ressorts, secousses, apparitions, explosion d'étoiles)
-- **react-native-svg** : dessin du modèle et du tracé
-- **expo-speech** : consignes lues à voix haute (utile aux enfants qui ne lisent pas encore)
-- **expo-haptics** : vibrations de réussite ou d'erreur sur mobile
 
 ## Commandes
 
 ```bash
 npm install
 npm run web          # dans le navigateur (PC)
-npm run android      # émulateur ou appareil Android
-npm run ios          # simulateur iOS (macOS)
-npm test             # tests de la logique
+npm start            # QR code à scanner avec Expo Go (Android / iOS)
+npm test             # 227 tests de la logique
 npm run typecheck    # vérification TypeScript
-npm run export:web   # site statique dans dist/, à héberger ou à envelopper
+npm run export:web   # site statique dans dist/
 ```
 
-Reanimated, Gesture Handler et SVG sont inclus dans Expo Go : on peut tester sur téléphone en scannant le QR code de `npm start`.
+Test de bout en bout (3 profils, 3 langues, 6 moteurs, captures dans `e2e/captures/`) :
 
-**Publier sur les stores** : `npx eas-cli@latest build -p android` / `-p ios`, puis `eas submit`.
+```bash
+npm i -D playwright && npx playwright install chromium
+npm run export:web && node e2e/serve.mjs dist &
+node --experimental-strip-types e2e/parcours.mjs
+```
 
-**Application PC installable** : le dossier `dist/` produit par `npm run export:web` peut être enveloppé avec [Tauri](https://tauri.app) ou Electron. Il peut aussi être publié comme site web.
+**Publier :** `npx eas-cli@latest build -p android` / `-p ios`, puis `eas submit`. Pour une application PC installable, envelopper `dist/` avec [Tauri](https://tauri.app) ou Electron.
+
+## Voix et kreyòl
+
+Les consignes sont lues par la synthèse vocale de l'appareil (`expo-speech`). Les voix françaises et anglaises existent presque partout. **Il n'existe en général pas de voix kreyòl** sur Android, iOS ou Windows. Dans ce cas, l'application affiche le mot à lire à la place du haut-parleur.
+
+Pour les enfants qui ne lisent pas encore, la prochaine étape est d'**enregistrer les mots et les consignes kreyòl** (fichiers audio), puis de les brancher dans `src/lib/feedback.ts` (fonction `say`), à la place de la synthèse vocale quand un enregistrement existe.
 
 ## Prochaines étapes
 
-1. Voix enregistrées (plus chaleureuses que la synthèse vocale) et vraies illustrations libres.
-2. Modèles de tracé des minuscules et de l'écriture cursive pour le CP.
-3. Nouveaux générateurs réutilisant les moteurs : soustractions et tables (choix), associer image et mot (glisser-déposer).
-4. Difficulté adaptative : monter de niveau après 5 réussites d'affilée, redescendre après 3 échecs.
-5. Sauvegarde des progrès et espace parents protégé par un contrôle parental.
-6. Conformité : RGPD (mineurs), COPPA, catégorie Enfants de l'App Store, programme Familles de Google Play (pas de publicité ni de statistiques d'audience tierces).
+1. Enregistrements audio kreyòl (et voix humaines chaleureuses en français et en anglais).
+2. Relecture pédagogique des contenus, surtout en kreyòl, et vraies illustrations libres.
+3. Tracé des minuscules et de l'écriture cursive ; nouveaux thèmes de vocabulaire (école, nature, métiers, verbes).
+4. Plus d'activités : heure et monnaie (gourdes, dollars, euros), fractions, compréhension de phrases, labyrinthes.
+5. Synchronisation facultative entre appareils et rapport hebdomadaire pour les parents.
+6. Conformité : RGPD (mineurs), COPPA, catégorie Enfants de l'App Store, programme Familles de Google Play. Aujourd'hui, aucune donnée ne quitte l'appareil.
 
 ## Licence
 

@@ -4,7 +4,7 @@ import Animated, { ZoomIn } from 'react-native-reanimated';
 /** Progression de la série : une étoile par exercice réussi. */
 export function StarBar({ total, earned }: { total: number; earned: number }) {
   return (
-    <View style={styles.row} accessibilityLabel={`${earned} étoiles sur ${total}`}>
+    <View style={styles.row} testID="starbar" accessibilityLabel={`${earned}/${total}`}>
       {Array.from({ length: total }, (_, i) =>
         i < earned ? (
           <Animated.Text key={`on-${i}`} entering={ZoomIn.springify()} style={styles.star}>

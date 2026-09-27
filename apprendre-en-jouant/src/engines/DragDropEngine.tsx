@@ -133,7 +133,7 @@ function DraggableTile({ letter, home, locked, onRelease }: TileProps) {
     <GestureDetector gesture={pan}>
       <Animated.View
         testID={`tile-${letter}`}
-        accessibilityLabel={`Lettre ${letter}`}
+        accessibilityLabel={letter}
         style={[styles.tile, { left: home.x, top: home.y, width: home.w, height: home.h }, style]}
       >
         <Text style={styles.tileText}>{letter}</Text>
